@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -9,6 +10,7 @@ import (
 	"github.com/mohamedfawas/user-management-system/models"
 	"github.com/mohamedfawas/user-management-system/utils"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func DisplayAdminLogin(c *gin.Context) {
@@ -19,28 +21,34 @@ func DisplayAdminLogin(c *gin.Context) {
 
 func PostAdminLogin(c *gin.Context) {
 	var admin models.Admin
+	//admin.Name = c.PostForm("name")
 	admin.Email = c.PostForm("email")
 	admin.Password = c.PostForm("password")
 
-	if err := c.Bind(&admin); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
+	if err := c.ShouldBind(&admin); err != nil {
+		c.HTML(http.StatusBadRequest, "adminLogin.html", gin.H{"error": "Invalid input"})
 		return
 	}
 
 	var dbAdmin models.Admin
-	if err := initializers.DB.Where("email = ?", admin.Email).First(&dbAdmin).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Admin not found"})
+	result := initializers.DB.Where("email = ?", admin.Email).First(&dbAdmin)
+	if result.Error != nil {
+		log.Printf("Database query error: %v", result.Error)
+		if result.Error == gorm.ErrRecordNotFound {
+			c.HTML(http.StatusUnauthorized, "adminLogin.html", gin.H{"error": "Admin not found"})
+		} else {
+			c.HTML(http.StatusInternalServerError, "adminLogin.html", gin.H{"error": "Database error"})
+		}
 		return
 	}
-
 	if err := bcrypt.CompareHashAndPassword([]byte(dbAdmin.Password), []byte(admin.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid login credentials"})
+		c.HTML(http.StatusUnauthorized, "adminLogin.html", gin.H{"error": "Invalid login credentials"})
 		return
 	}
 
 	token, err := utils.GenerateToken(dbAdmin.ID, true)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		c.HTML(http.StatusInternalServerError, "adminLogin.html", gin.H{"error": "Failed to generate token"})
 		return
 	}
 

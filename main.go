@@ -53,6 +53,9 @@ func main() {
 		admin.POST("/panel/deleteuser/:id", controllers.DeleteUser)
 	}
 
+	// Logout route (this should be accessible to both users and admins)
+	router.GET("/logout", handlers.Logout)
+
 	//set port and run
 	router.Run(":" + port)
 }
