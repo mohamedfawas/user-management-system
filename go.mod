@@ -1,3 +1,3 @@
-module github.com/user-management-system
+module github.com/mohamedfawas/user-management-system
 
 go 1.22.1

@@ -21,4 +21,12 @@
 
 #### Step 2 : Initialize the module
 
-- 
+- `go mod init github.com/mohamedfawas/user-management-system`
+
+#### Step 3 : Install the required frameworks
+
+- `go get -u github.com/gin-gonic/gin`
+- `go get -u gorm.io/gorm`
+- `go get -u gorm.io/driver/postgres`
+- `go get github.com/gin-contrib/cors`
+- ``
