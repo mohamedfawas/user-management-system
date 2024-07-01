@@ -29,4 +29,10 @@
 - `go get -u gorm.io/gorm`
 - `go get -u gorm.io/driver/postgres`
 - `go get github.com/gin-contrib/cors`
-- ``
+- `go get github.com/joho/godotenv`
+- `go get golang.org/x/crypto/bcrypt`
+- `go get github.com/golang-jwt/jwt/v5`
+
+#### Step 4 : Project directory structure plan
+
+#### Step 5 : 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">User Sign Up</h1>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form action="/usersignup" method="post">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+                <div class="signup-link">
+                    Already registered before?  <a href="/"><button>User Login</button></a>
+                </div>
+                <!-- Display error or success message -->
+                {{ if .error }}
+                    <div class="alert alert-danger mt-3">{{ .error }}</div>
+                {{ end }}
+                {{ if .message }}
+                    <div class="alert alert-success mt-3">{{ .message }}</div>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
